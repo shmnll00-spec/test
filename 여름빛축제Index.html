@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>여름빛 축제 2026</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Pretendard", "Malgun Gothic", sans-serif;
+      color: #222;
+      background: #fff;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* 메뉴 */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      background: rgba(20, 20, 40, 0.85);
+      backdrop-filter: blur(10px);
+      color: #fff;
+    }
+
+    .navbar .logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar .logo span { color: #ffb347; }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 15px;
+      font-weight: 500;
+      opacity: 0.9;
+      transition: opacity 0.2s, color 0.2s;
+    }
+
+    .nav-links a:hover { opacity: 1; color: #ffb347; }
+
+    .nav-cta {
+      padding: 9px 18px;
+      border: 1px solid #ffb347;
+      border-radius: 999px;
+      color: #ffb347;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-cta:hover { background: #ffb347; color: #1a1a2e; }
+
+    /* 히어로 */
+    .hero {
+      position: relative;
+      height: 80vh;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      background:
+        linear-gradient(135deg, rgba(20,20,50,0.55), rgba(255,111,97,0.45)),
+        url("https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    }
+
+    .hero-inner { padding: 0 24px; max-width: 900px; }
+
+    .hero .eyebrow {
+      display: inline-block;
+      padding: 6px 14px;
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 999px;
+      font-size: 13px;
+      letter-spacing: 2px;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 88px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 18px;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: #ffd27d;
+    }
+
+    .hero p {
+      font-size: clamp(15px, 2vw, 19px);
+      opacity: 0.95;
+      margin-bottom: 30px;
+    }
+
+    .hero .btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    .btn {
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-primary {
+      background: #ffb347;
+      color: #1a1a2e;
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(255,179,71,0.4); }
+
+    .btn-ghost {
+      border: 1px solid rgba(255,255,255,0.7);
+      color: #fff;
+    }
+
+    .btn-ghost:hover { background: rgba(255,255,255,0.12); }
+
+    /* 프로그램 카드 섹션 */
+    .programs {
+      padding: 90px 24px 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+
+    .section-head p { color: #666; font-size: 16px; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #eee;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .card-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .card-body { padding: 24px 24px 30px; }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #ff6f61;
+      background: rgba(255,111,97,0.1);
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .card p { color: #555; font-size: 15px; margin-bottom: 16px; }
+
+    .card .more {
+      font-weight: 700;
+      color: #1a1a2e;
+      font-size: 14px;
+      border-bottom: 2px solid #ffb347;
+      padding-bottom: 2px;
+    }
+
+    .card:first-child .more {
+      color: #7c3aed;
+    }
+
+    /* 푸터 */
+    .footer {
+      background: #14142a;
+      color: #c9c9d4;
+      padding: 60px 24px 30px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer h4 {
+      color: #fff;
+      font-size: 15px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .footer ul { list-style: none; }
+    .footer ul li { margin-bottom: 10px; font-size: 14px; }
+    .footer ul li a:hover { color: #ffb347; }
+
+    .footer .brand .logo {
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .footer .brand .logo span { color: #ffb347; }
+
+    .footer .brand p { font-size: 14px; max-width: 280px; }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 50px auto 0;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    @media (max-width: 760px) {
+      .navbar { padding: 14px 18px; }
+      .nav-links { display: none; }
+      .cards { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 메뉴 -->
+  <nav class="navbar">
+    <div class="logo">여름빛<span>.</span>축제</div>
+    <ul class="nav-links">
+      <li><a href="#about">소개</a></li>
+      <li><a href="#programs">프로그램</a></li>
+      <li><a href="#lineup">라인업</a></li>
+      <li><a href="#info">안내</a></li>
+    </ul>
+    <a href="#tickets" class="nav-cta">티켓 예매</a>
+  </nav>
+
+  <!-- 큰 제목 (히어로) -->
+  <header class="hero">
+    <div class="hero-inner">
+      <span class="eyebrow">2026.08.15 — 08.17 · 한강공원</span>
+      <h1>빛으로 물든 여름,<br><em>여름 빛 축제</em></h1>
+      <p>음악과 빛, 그리고 사람들이 모여 만드는 도심 속 가장 뜨거운 3일의 밤.</p>
+      <div class="btns">
+        <a href="#tickets" class="btn btn-primary">지금 예매하기</a>
+        <a href="#programs" class="btn btn-ghost">프로그램 보기</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 카드 3개 -->
+  <section class="programs" id="programs">
+    <div class="section-head">
+      <h2>축제 하이라이트</h2>
+      <p>놓칠 수 없는 3가지 메인 프로그램</p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=800&q=80');"></div>
+        <div class="card-body">
+          <span class="card-tag">음악</span>
+          <h3>메인 스테이지 라이브</h3>
+          <p>인디 밴드부터 K-팝 헤드라이너까지, 3일간 이어지는 대형 라이브 콘서트.</p>
+          <a href="#" class="more">자세히 보기 →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80');"></div>
+        <div class="card-body">
+          <span class="card-tag">체험</span>
+          <h3>야간 빛 축제</h3>
+          <p>거대한 조형물과 함께 밤거리를 누비는 빛의 퍼레이드에 직접 참여해 보세요.</p>
+          <a href="#" class="more">자세히 보기 →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80');"></div>
+        <div class="card-body">
+          <span class="card-tag">푸드</span>
+          <h3>글로벌 푸드마켓</h3>
+          <p>전 세계 30개 푸드트럭이 모인 미식의 거리에서 여름밤을 맛있게 채우세요.</p>
+          <a href="#" class="more">자세히 보기 →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80');"></div>
+        <div class="card-body">
+          <span class="card-tag">가족</span>
+          <h3>키즈 빛 체험존</h3>
+          <p>아이들이 직접 만드는 빛 공방과 불꽃놀이 워크숍, 온 가족이 즐기는 시간.</p>
+          <a href="#" class="more">자세히 보기 →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?auto=format&fit=crop&w=800&q=80');"></div>
+        <div class="card-body">
+          <span class="card-tag">마켓</span>
+          <h3>핸드메이드 플리마켓</h3>
+          <p>작가 50팀이 모여 직접 만든 빛 작품과 소품을 판매하는 야시장.</p>
+          <a href="#" class="more">자세히 보기 →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=800&q=80');"></div>
+        <div class="card-body">
+          <span class="card-tag">피날레</span>
+          <h3>대형 불꽃쇼</h3>
+          <p>매일 밤 한강 위로 펼쳐지는 20분간의 화려한 불꽃놀이 피날레.</p>
+          <a href="#" class="more">자세히 보기 →</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 푸터 -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="brand">
+        <div class="logo">여름빛<span>.</span>축제</div>
+        <p>음악·빛·사람이 만나는 도심 축제. 매년 8월, 한강에서 만납니다.</p>
+      </div>
+      <div>
+        <h4>축제</h4>
+        <ul>
+          <li><a href="#">소개</a></li>
+          <li><a href="#">연혁</a></li>
+          <li><a href="#">후원</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>안내</h4>
+        <ul>
+          <li><a href="#">오시는 길</a></li>
+          <li><a href="#">공지사항</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>팔로우</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">YouTube</a></li>
+          <li><a href="#">X</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 여름빛축제 조직위원회. All rights reserved.</span>
+      <span>개인정보처리방침 · 이용약관</span>
+    </div>
+  </footer>
+
+</body>
+</html>
