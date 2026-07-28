@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PULSE — 전국 야간 축제 둘러보기</title>
+<meta name="description" content="PULSE. 전국의 밤을 수놓는 야간·불꽃 축제를 한곳에서.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A1F; --ink-2:#13112A; --ink-3:#1B1838;
+    --bone:#EDE3D0; --dim:#9A917F;
+    --a:#FF5A1F; --b:#22D3C5;
+    --rule:rgba(237,227,208,.12);
+    --maxw:1200px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--bone);font-family:"Space Grotesk",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--a);color:var(--ink)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* grain */
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:1000;opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+
+  /* ===== HEADER ===== */
+  header.nav{position:sticky;top:0;z-index:100;background:rgba(10,10,31,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-family:"Anton",sans-serif;letter-spacing:.04em;font-size:24px}
+  .brand b{color:var(--a)}
+  .nav-links{display:flex;gap:28px;font-family:"Space Mono",monospace;font-size:13px}
+  .nav-links a{color:var(--dim);transition:color .2s}
+  .nav-links a:hover{color:var(--bone)}
+  .nav-cta{font-family:"Space Mono",monospace;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;border:1px solid var(--bone);transition:all .2s}
+  .nav-cta:hover{background:var(--a);border-color:var(--a);color:var(--ink)}
+  .nav-toggle{display:none;background:none;border:1px solid var(--rule);color:var(--bone);width:40px;height:40px;font-size:18px;cursor:pointer}
+  @media(max-width:760px){
+    .nav-links{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;background:var(--ink-2);padding:16px 24px;gap:14px;border-bottom:1px solid var(--rule)}
+    .nav-links.open{display:flex}
+    .nav-toggle{display:block}
+  }
+
+  /* ===== HERO ===== */
+  .hero{position:relative;padding:80px 0 56px;border-bottom:1px solid var(--rule)}
+  .hero-eyebrow{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:10px;margin-bottom:28px}
+  .hero-eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--a);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .hero h1{font-family:"Anton",sans-serif;font-weight:400;line-height:.82;letter-spacing:-.01em;font-size:clamp(80px,18vw,240px);text-transform:uppercase;margin-bottom:24px}
+  .hero h1 .ac{color:var(--a)}
+  .hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap}
+  .hero-tag{font-size:clamp(17px,2.2vw,23px);max-width:520px;font-weight:500;line-height:1.35}
+  .hero-tag em{color:var(--a);font-style:normal}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 22px;border:1px solid var(--bone);background:transparent;color:var(--bone);cursor:pointer;transition:all .2s}
+  .btn:hover{background:var(--bone);color:var(--ink)}
+  .btn-primary{background:var(--a);border-color:var(--a);color:var(--ink)}
+  .btn-primary:hover{background:var(--bone);border-color:var(--bone)}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:48px}
+  .hstat{background:var(--ink);padding:24px}
+  .hstat-n{font-family:"Anton",sans-serif;font-size:48px;line-height:1}
+  .hstat-n b{color:var(--b)}
+  .hstat-l{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-top:8px}
+
+  /* ===== CARDS SECTION ===== */
+  section.cards-sec{padding:88px 0;border-bottom:1px solid var(--rule)}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:40px}
+  .eyebrow{font-family:"Space Mono",monospace;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--a);display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  .eyebrow::before{content:"";width:32px;height:1px;background:var(--a)}
+  .h2{font-family:"Anton",sans-serif;font-weight:400;font-size:clamp(36px,6vw,72px);line-height:.92;text-transform:uppercase;letter-spacing:-.005em}
+  .sec-sub{color:var(--dim);font-size:15px;max-width:380px}
+  .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:900px){.card-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.card-grid{grid-template-columns:1fr}}
+  .card{position:relative;border:1px solid var(--rule);background:var(--ink-2);overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s;outline:none}
+  .card:focus-visible{outline:2px solid var(--bone);outline-offset:3px}
+  .card:hover{transform:translateY(-4px);border-color:var(--a)}
+  .card-media{height:160px;position:relative;overflow:hidden}
+  .card-media .g{position:absolute;inset:0;transition:transform .5s}
+  .card:hover .card-media .g{transform:scale(1.06)}
+  .card-badge{position:absolute;top:12px;left:12px;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 9px;background:rgba(10,10,31,.7);color:var(--bone);z-index:2}
+  .card-new{position:absolute;top:12px;right:12px;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.08em;padding:5px 9px;background:var(--a);color:var(--ink);z-index:2}
+  .card-body{padding:20px}
+  .card-region{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--b);margin-bottom:6px}
+  .card-title{font-family:"Anton",sans-serif;font-size:24px;line-height:1;text-transform:uppercase;margin-bottom:10px}
+  .card-date{font-family:"Space Mono",monospace;font-size:12px;color:var(--dim);margin-bottom:10px}
+  .card-desc{font-size:14px;color:var(--dim);line-height:1.55;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card-foot{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--rule);font-family:"Space Mono",monospace;font-size:12px}
+  .card-foot .more{color:var(--a);font-weight:700;letter-spacing:.04em}
+  .card-foot .clicks{color:var(--dim)}
+  .card-skel{height:340px;border:1px solid var(--rule);background:var(--ink-2);position:relative;overflow:hidden}
+  .card-skel::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(237,227,208,.05),transparent);animation:sh 1.4s infinite}
+  @keyframes sh{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ===== FOOTER ===== */
+  footer{background:var(--ink-2);padding:56px 0 36px}
+  .foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;padding-bottom:40px;border-bottom:1px solid var(--rule)}
+  .foot-brand{font-family:"Anton",sans-serif;font-size:clamp(56px,12vw,150px);line-height:.8;text-transform:uppercase}
+  .foot-brand b{color:var(--a)}
+  .foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+  .foot-col h4{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:14px}
+  .foot-col a{display:block;font-size:14px;color:var(--bone);padding:5px 0;transition:color .2s}
+  .foot-col a:hover{color:var(--a)}
+  .foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.05em;color:var(--dim);text-transform:uppercase}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink-2);border:1px solid var(--rule);padding:11px 18px;font-family:"Space Mono",monospace;font-size:12px;opacity:0;pointer-events:none;transition:all .25s;z-index:200}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- HEADER -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">PUL<b>S</b>E</a>
+    <nav class="nav-links" id="nav-links">
+      <a href="#cards">축제 둘러보기</a>
+      <a href="#cards">라인업</a>
+      <a href="#cards">갤러리</a>
+      <a href="#cards">문의</a>
+    </nav>
+    <a href="#cards" class="nav-cta">티켓 예매</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="메뉴">☰</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-eyebrow"><span class="dot"></span>2026 · 전국 야간·불꽃 축제 포털</div>
+    <h1>PUL<span class="ac">S</span>E</h1>
+    <div class="hero-row">
+      <p class="hero-tag">도심의 밤이 <em>소리</em>와 <em>빛</em>이 되는 순간.<br>전국의 야간 축제를 한곳에서 만나보세요.</p>
+      <div class="hero-actions">
+        <a href="#cards" class="btn btn-primary">축제 둘러보기</a>
+        <a href="#cards" class="btn">티켓 예매</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n">12<b>+</b></div><div class="hstat-l">등록 축제</div></div>
+      <div class="hstat"><div class="hstat-n">8</div><div class="hstat-l">참여 지역</div></div>
+      <div class="hstat"><div class="hstat-n">24<small style="font-size:.4em;color:var(--dim)">h</small></div><div class="hstat-l">야간 운영</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CARDS -->
+<section class="cards-sec" id="cards">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">축제 둘러보기</div>
+        <h2 class="h2">밤의 축제를<br>만나보세요.</h2>
+      </div>
+      <p class="sec-sub">지역 불꽃·야간 축제 모음. 카드를 누르면 공식 정보로 이동하고 조회 수가 집계됩니다.</p>
+    </div>
+    <div class="card-grid" id="card-grid">
+      <div class="card-skel"></div><div class="card-skel"></div><div class="card-skel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">PUL<b>S</b>E</div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>바로가기</h4>
+          <a href="#cards">축제 둘러보기</a>
+          <a href="#cards">라인업</a>
+          <a href="#cards">갤러리</a>
+          <a href="#cards">티켓 예매</a>
+        </div>
+        <div class="foot-col">
+          <h4>안내</h4>
+          <a href="#cards">이용약관</a>
+          <a href="#cards">개인정보처리방침</a>
+          <a href="#cards">문의하기</a>
+        </div>
+        <div class="foot-col">
+          <h4>문의</h4>
+          <a href="#cards">help@pulse-festival.kr</a>
+          <a href="#cards">@pulse.festival</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 PULSE Festival</div>
+      <div>본 사이트는 데모용입니다</div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  const URL = "https://gjsstmpccxvpbafcqasy.supabase.co";
+  const KEY = "sb_publishable_Q-hNHZtl9NI_6-a_6vapnQ_rpStR_li";
+  const grid = document.getElementById("card-grid");
+  const toast = document.getElementById("toast");
+
+  const FALLBACK = [
+    {slug:"seoul-fireworks",title:"서울 세계불꽃축제",region:"서울",place:"여의도 한강공원",start:"10-05",end:"10-05",summary:"매년 10월 여의도에서 열리는 국내 대표 불꽃축제. 국내외 팀의 화려한 불꽃쇼.",palette:["#ff5d8f","#ffb454"],official:"https://www.hanwhafireworks.com",badge:"HOT",clicks:0},
+    {slug:"busan-fireworks",title:"부산 불꽃축제",region:"부산",place:"광안리해수욕장",start:"10-25",end:"10-26",summary:"광안리 해변을 배경으로 펼쳐지는 부산 대표 불꽃축제. 다리와 바다 위 불꽃이 장관.",palette:["#6aa8ff","#b48bff"],official:"https://www.bfireworks.com",badge:null,clicks:0},
+    {slug:"pohang-light",title:"포항 국제불빛축제",region:"경북",place:"포항 영일대 해수욕장",start:"07-26",end:"07-28",summary:"여름밤 영일대에서 열리는 빛과 불꽃의 축제. 설치 미술과 퍼포먼스가 어우러짐.",palette:["#6affd5","#6aa8ff"],official:"https://www.ipf.or.kr",badge:"NEW",clicks:0},
+    {slug:"pulse",title:"PULSE 야간 음악 페스티벌",region:"서울",place:"난지한강공원",start:"09-19",end:"09-21",summary:"도심의 밤이 소리가 되는 순간. 한강 위 3일간의 야간 라이브. 40+ 아티스트.",palette:["#0A0A1F","#FF5A1F"],official:"https://pulse-festival.kr",badge:null,clicks:0}
+  ];
+
+  function showToast(msg){ toast.textContent=msg; toast.classList.add("show"); clearTimeout(showToast._t); showToast._t=setTimeout(()=>toast.classList.remove("show"),1400); }
+
+  function cardHTML(f){
+    const [c1,c2]=f.palette||["#FF5A1F","#22D3C5"];
+    return `
+      <article class="card reveal" data-slug="${f.slug}" data-official="${f.official||""}" tabindex="0" role="button" aria-label="${f.title} 열기">
+        <div class="card-media">
+          <span class="card-badge">${f.region}</span>
+          ${f.badge?`<span class="card-new">${f.badge}</span>`:""}
+          <div class="g" style="background:linear-gradient(135deg,${c1},${c2})"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-region">${f.region}</p>
+          <h3 class="card-title">${f.title}</h3>
+          <p class="card-date">📅 ${f.start} ~ ${f.end} · ${f.place}</p>
+          <p class="card-desc">${f.summary}</p>
+          <div class="card-foot">
+            <span class="more">자세히 →</span>
+            <span class="clicks" data-clicks="${f.slug}">👁 ${(f.clicks||0).toLocaleString()}회</span>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  function render(list){
+    grid.innerHTML = list.map(cardHTML).join("");
+    grid.querySelectorAll(".card").forEach(card=>{
+      const fire=()=>openCard(card);
+      card.addEventListener("click",fire);
+      card.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();fire();} });
+    });
+    observeReveal();
+  }
+
+  function openCard(card){
+    const slug=card.dataset.slug;
+    const off=card.dataset.official;
+    // 조회수 증가 (fire-and-forget)
+    const el=card.querySelector("[data-clicks]");
+    const n=(parseInt((el.textContent||"").replace(/\D/g,""),10)||0)+1;
+    el.textContent="👁 "+n.toLocaleString()+"회";
+    showToast(slug+" 조회 +1");
+    fetch(URL+"/rest/v1/rpc/increment_festival_click",{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify({p_slug:slug})}).catch(()=>{});
+    if(off) window.open(off,"_blank","noopener");
+  }
+
+  // 스크롤 리빌
+  function observeReveal(){
+    const els=document.querySelectorAll(".reveal:not(.in)");
+    if(!("IntersectionObserver" in window)){ els.forEach(e=>e.classList.add("in")); return; }
+    const io=new IntersectionObserver((es)=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }); },{threshold:.12});
+    els.forEach((e,i)=>{ e.style.transitionDelay=(i%3)*80+"ms"; io.observe(e); });
+  }
+
+  // 모바일 메뉴
+  const toggle=document.getElementById("nav-toggle");
+  const links=document.getElementById("nav-links");
+  toggle.addEventListener("click",()=>links.classList.toggle("open"));
+  links.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>links.classList.remove("open")));
+
+  // 동적 로드
+  async function load(){
+    try{
+      const res=await fetch(URL+"/rest/v1/festivals?select=slug,title,region,place,start_date,end_date,summary,palette,official_url,badge,click_count&is_published=eq.true&order=sort_order.asc",{
+        headers:{apikey:KEY,Authorization:"Bearer "+KEY}
+      });
+      if(!res.ok) throw new Error("HTTP "+res.status);
+      const rows=await res.json();
+      if(!rows.length) throw new Error("empty");
+      render(rows.map(r=>({
+        slug:r.slug, title:r.title, region:r.region, place:r.place,
+        start:(r.start_date||"").slice(5), end:(r.end_date||"").slice(5),
+        summary:r.summary, palette:r.palette, official:r.official_url,
+        badge:r.badge, clicks:r.click_count||0
+      })));
+    }catch(e){
+      console.warn("[cards] Supabase 로드 실패, 폴백 사용:",e.message);
+      render(FALLBACK);
+    }
+  }
+
+  load();
+})();
+</script>
+</body>
+</html>
